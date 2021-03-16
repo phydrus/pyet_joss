@@ -52,7 +52,8 @@ In this paper, the term `evaporation` reffers to the total evaporation from land
 transpiration (evaporation of water from inside the leaves), evaporation from bare soils and interception loss
 (evaporation of intercepted precipitation) [@miralles2020].
 
-Table 1: PET methods included in `PyEt`
+Table 1: PET methods included in `PyEt`.
+
 | Method                   | Data needed | PyEt Method         | Reference                     |
 |------------------------  |-------------|---------------------|---------------------------    |
 | Penman                   | RH, T, U, D |`penman`             |[@penman1948natural]           |
