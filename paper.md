@@ -70,8 +70,10 @@ Table 1: PET methods included in `PyEt`.
 | Linacre           | T           |`linacre`          |[@linacre1977simple]           |
 | Turc              | T, D        |`turc`             |[@xu2001evaluation]            |
 | Jensen–Haise      | T, D        |`jensen_haise`     |[@jensen1963estimating]        |
-| McGuinness–Bordne | T, D        |`mcguinness_bordne`|[@mcguinness1972comparison]    |
-| Hargreaves        | T           |`hargreaves`       |[@hargreaves1982estimating]    |
+| McGuinness–Bordne | T, D        |`mcguinness_bordne`|(McGuinness & Bordne,          |
+|                   |             |                   |1972)                          |
+| Hargreaves        | T           |`hargreaves`       |(Hargreaves & Samani,          |
+|                   |             |                   |1982)                          |
 | Doorenbos–Pruitt  | RH, T, U, D |`fao_24`           |[@jensen1990evapotranspiration]|
 |(FAO-24)           |             |                   |                               |
 | Abtew             | T, D        |`abtew`            |[@abtew1996evapotranspiration] |
