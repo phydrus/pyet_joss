@@ -54,10 +54,7 @@ transpiration (evaporation of water from inside the leaves), evaporation from ba
 
 Table 1: PET methods included in `PyEt`.
 
-<style>
-td {
-  font-size: 11px
-}
+<small>
 
 | Method             | Data needed | PyEt Method       | Reference               |
 |--------------------|-------------|-------------------|-------------------------|
@@ -80,7 +77,7 @@ td {
 | Makkink                  | T, D        |`makkink`            |[@makkink1957testing]          |
 | Oudin                    | T           |`oudin`              |[@OUDIN2005290]          |
 
-</style>
+</small>
 
 T, Temperature; U, Wind Speed; D, Radiation; RH, Relative Humidity. Adapted from [@OUDIN2005290].
 
