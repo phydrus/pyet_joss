@@ -56,7 +56,7 @@ Table 1: PET methods included in `PyEt`.
 
 <style>
 td {
-  font-size: 30px
+  font-size: 11px
 }
 
 | Method             | Data needed | PyEt Method       | Reference               |
