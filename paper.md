@@ -31,7 +31,7 @@ be evaporated if enough water were available. Consistently implementing these me
 due to the significant diversity in the level of input data, process representation, assumptions 
 and data requirements. The goal of `PyEt` is to provide a Python package that includes a wide range 
 of methods for the estimation of PET, is fully documented and easy to use. Currently, `PyEt` includes 
-eighteen different methods to estimate PET and various methods to estimate surface and aerodynamic 
+eighteen different methods to estimate daily PET and various methods to estimate surface and aerodynamic 
 resistance (see Table below). The package allows users to compute and compare potential evaporation 
 estimates using different approaches with minimum effort. The structure of the package allows the 
 implementation of the methods in other hydrological models or sensitivity analysis.
@@ -39,54 +39,56 @@ implementation of the methods in other hydrological models or sensitivity analys
 # Statement of Need
 
 In the Python community, there are already several Python packages that compute evaporation but only
-allow one or a maximum of three evaporation methods, e.g. `evaporation` (https://github.com/openmeteo/evaporation),
-`PyETo` (https://github.com/woodcrafty/PyETo), `RefET` (https://github.com/WSWUP/RefET). What the R package 
-`Evapotranspiration` [@Danlu2016r] provides to the R community, `PyEt` will offer to the Python community,  
-that is a reliable and easy to use package that allows the computation of ET using several well-known ET methods. 
-As the package also includes simple evaporation methods that require fewer input data than the commonly used 
-Penman-Monteith method (see table 1), `PyEt` can be of great importance in regions with sparsely distributed 
-networks of measurement stations or climate change studies, where observations/predictions of wind velocity 
-and humidity are often not available. The importance of simple evaporation models and their efficiency in 
-rainfall-runoff models is thoroughly  in [@OUDIN2005290]. In this paper, the term `evaporation` reffers to 
-the total evaporation from land, comprising of transpiration (evaporation of water from inside the leaves), 
-evaporation from bare soils and interception loss (evaporation of intercepted precipitation) [@miralles2020].
+allow the user to choose between one or a maximum of three evaporation methods, e.g. `evaporation` 
+(https://github.com/openmeteo/evaporation),`PyETo` (https://github.com/woodcrafty/PyETo), `RefET` 
+(https://github.com/WSWUP/RefET). A package that includes a number of evaporation methods is already
+available in the R community [@Danlu2016r]. `PyEt` will therefore aim to provide similar contributions
+to the Python community. `PyEt` also includes simple evaporation methods that require fewer input 
+data than the commonly used Penman-Monteith method (see table 1). Thus, `PyEt` can be of great importance 
+in regions with sparsely distributed networks of measurement stations or climate change studies, where 
+observations/predictions of wind velocity and humidity are often not available. The importance of simple 
+evaporation models and their efficiency in rainfall-runoff models is thoroughly  in [@OUDIN2005290]. 
+In this paper, the term `evaporation` refers to the total evaporation from land, comprising of 
+transpiration (evaporation of water from inside the leaves), evaporation from bare soils and interception 
+loss (evaporation of intercepted precipitation) [@miralles2020].
 
 Table 1: PET, surface and aerodynamic resistance methods included in `PyEt`. T, Temperature; U, Wind Speed; 
-D, Radiation; RH, Relative Humidity, $h_{crop}$ Adapted from [@OUDIN2005290].
+D, Radiation; RH, Relative Humidity; $h_{crop}$, crop height; LAI, Leaf area index; $[CO_2]$ - atmospheric
+$CO_2$ concentration. Adapted from [@OUDIN2005290].
 
 | Method            | Data needed     | PyEt Method       | Reference                     |
 |-------------------|-----------------|-------------------|-------------------------------|
-| Penman            | RH, T, U, D     |`penman`           |[@penman1948natural]           |
-| Penman-Monteith   | RH, T, U, D     |`pm`               |[@monteith1965evaporation]     |
-|                   |                 |                   |[@schymanski_2017              |
-| FAO-56            | RH, T, U, D     |`pm_fao56`         |[@allen1998crop]               |
-| Priestley-Taylor  | T, D            |`priestley_taylor` |[@priestley1972assessment]     |
-| Kimberly-Penman   | RH, T, U, D     |`kimberly_penman`  |[@wright1982new]               |
-| Thom-Oliver       | RH, T, U, D     |`thom_oliver`      |[@thom1977penman]              |
-| Blaney–Criddle    | T, D            |`blaney_criddle`   |[@blaney1952determining]       |
-| Hamon             | T               |`hamon`            |[@hamon1963estimating]         |
-| Romanenko         | RH, T           |`romanenko`        |[@xu2001evaluation]            |
-| Linacre           | T               |`linacre`          |[@linacre1977simple]           |
-| Turc              | T, D            |`turc`             |[@xu2001evaluation]            |
-| Jensen–Haise      | T, D            |`jensen_haise`     |[@jensen1963estimating]        |
-| McGuinness–Bordne | T, D            |`mcguinness_bordne`|(McGuinness & Bordne,          |
-|                   |                 |                   |1972)                          |
-| Hargreaves        | T               |`hargreaves`       |(Hargreaves & Samani,          |
-|                   |                 |                   |1982)                          |
-| Doorenbos–Pruitt  | RH, T, U, D     |`fao_24`           |[@jensen1990evapotranspiration]|
-|(FAO-24)           |                 |                   |                               |
-| Abtew             | T, D            |`abtew`            |[@abtew1996evapotranspiration] |
-| Makkink           | T, D            |`makkink`          |[@makkink1957testing]          |
-| Oudin             | T               |`oudin`            |[@OUDIN2005290]                |
-| Aerodynamic       | U,($h_crop$)    |`calc_res_aero`    |[@allen1998crop]               |
-| resistance        |                 |                   |                               |
-| Surface           | (LAI),($[CO_2]$)|`calc_res_surf`    |[@allen1998crop]               |
-| resistance        |                 |                   |[@Yang2018HydrologicIO]        |
+| Penman            | RH, T, U, D     |`penman`           |@penman1948natural             |
+| Penman-Monteith   | RH, T, U, D     |`pm`               |@monteith1965evaporation     |
+|                   |                 |                   |@schymanski_2017             |
+| FAO-56            | RH, T, U, D     |`pm_fao56`         |@allen1998crop               |
+| Priestley-Taylor  | T, D            |`priestley_taylor` |@priestley1972assessment     |
+| Kimberly-Penman   | RH, T, U, D     |`kimberly_penman`  |@wright1982new               |
+| Thom-Oliver       | RH, T, U, D     |`thom_oliver`      |@thom1977penman              |
+| Blaney–Criddle    | T, D            |`blaney_criddle`   |@blaney1952determining       |
+| Hamon             | T               |`hamon`            |@hamon1963estimating         |
+| Romanenko         | RH, T           |`romanenko`        |@xu2001evaluation            |
+| Linacre           | T               |`linacre`          |@linacre1977simple           |
+| Turc              | T, D            |`turc`             |@xu2001evaluation            |
+| Jensen–Haise      | T, D            |`jensen_haise`     |@jensen1963estimating        |
+| McGuinness–Bordne | T, D            |`mcguinness_bordne`|McGuinness & Bordne          |
+|                   |                 |                   |(1972)                       |
+| Hargreaves        | T               |`hargreaves`       |Hargreaves & Samani          |
+|                   |                 |                   |(1982)                       |
+| Doorenbos–Pruitt  | RH, T, U, D     |`fao_24`           |@jensen1990evapotranspiration|
+|(FAO-24)           |                 |                   |                             |
+| Abtew             | T, D            |`abtew`            |@abtew1996evapotranspiration |
+| Makkink           | T, D            |`makkink`          |@makkink1957testing          |
+| Oudin             | T               |`oudin`            |@OUDIN2005290                |
+| Aerodynamic       | U,($h_{crop}$)  |`calc_res_aero`    |@allen1998crop               |
+| resistance        |                 |                   |                             |
+| Surface           | (LAI),($[CO_2]$)|`calc_res_surf`    |@allen1998crop               |
+| resistance        |                 |                   |@Yang2018HydrologicIO        |
 
 # Example application
 
-This example shows how `PyEt` can be used to compute potential evaporation using different methods. 
-The potential evaporation is estimated for the city of Maribor (Slovenia), using online available 
+This example shows how `PyEt` can be used to compute potential evaporation using different evaporation 
+methods. The potential evaporation is estimated for the city of Maribor (Slovenia), using online available 
 data from the Slovenian Environmental Agency (ARSO). The potential evaporation is computed using 
 four different methods (Penman, Priestley-Taylor, Makking, Hammon) and plotted for comparison.
 
@@ -115,21 +117,22 @@ In the code above `R_s` is the incoming solar radiation [MJ m-2 d-1], `elevation
 
 # Concluding remarks
 
-This paper presents `PyEt`, a Python package to estimate potential evaporation from available 
+This paper presents `PyEt`, a Python package to estimate daily potential evaporation from available 
 meteorological data. Using `PyEt`, users can estimate PET using 18 different methods with only a few lines
 of Python-code. At this stage (PyEt v1.0), the methods are implemented for 1D data (e.g. time series data).
 Further developments will focus on enabling 2D and 3D data input (Numpy Arrays, Array, and NetCDF files).
-The authors believe that `PyEt` will a valuable contribution to the hydrology, meteorology and agricultural 
+The authors believe that `PyEt` is a valuable contribution to the hydrology, meteorology and agricultural 
 communities, enabling a simple PET estimation and comparison between different PET estimates. `PyEt` methods 
 and estimates can be further used in hydrological models and sensitivity analyses. The `PyEt` design enables
 simple extension of the software with new capabilities and new model options. The authors warmly welcome 
-code contributions, bug reports, and feedback from the community to improve further improve the package.
+code contributions, bug reports, and feedback from the community to further improve the package.
 `PyEt` is free and open-source software under the LGPL-3.0 license and is available at
 http://www.github.com/phydrus/PyEt. Full documentation is available on ReadTheDocs (https://pyet.readthedocs.io). 
 The notebook and data necessary to reproduce the Figure in this manuscript are available through PyEt GitHub page.
 
 # Acknowledgements
-The first author is funded by is partly funded by the Earth System Sciences programme of the Austrian Academy of 
+
+The first author is partly funded by the Earth System Sciences programme of the Austrian Academy of 
 Sciences (project ClimGrassHydro). The second author is funded by the Austrian Science Fund (FWF) under Research 
 Grant W1256 (Doctoral Programme Climate 525 Change: Uncertainties, Thresholds and Coping Strategies).
 
