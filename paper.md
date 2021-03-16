@@ -42,19 +42,19 @@ In the Python community, there are already several Python packages that compute 
 allow the user to choose between one or a maximum of three evaporation methods, e.g. `evaporation` 
 (https://github.com/openmeteo/evaporation),`PyETo` (https://github.com/woodcrafty/PyETo), `RefET` 
 (https://github.com/WSWUP/RefET). A package that includes a number of evaporation methods is already
-available in the R community [@Danlu2016r]. `PyEt` will therefore aim to provide similar contributions
+available in the R community by @Danlu2016r. `PyEt` therefore aims to provide similar contributions
 to the Python community. `PyEt` also includes simple evaporation methods that require fewer input 
-data than the commonly used Penman-Monteith method (see table 1). Thus, `PyEt` can be of great importance 
-in regions with sparsely distributed networks of measurement stations or climate change studies, where 
-observations/predictions of wind velocity and humidity are often not available. The importance of simple 
-evaporation models and their efficiency in rainfall-runoff models is thoroughly  in [@OUDIN2005290]. 
-In this paper, the term `evaporation` refers to the total evaporation from land, comprising of 
+data than the commonly used Penman-Monteith method (see table below). Thus, `PyEt` can be of great 
+importance in regions with sparsely distributed networks of measurement stations or climate change 
+studies, where observations/predictions of wind velocity and humidity are often not available. The 
+importance of simple evaporation models and their efficiency in rainfall-runoff models is thoroughly 
+discussed in @OUDIN2005290. In this paper, the term `evaporation` refers to the total evaporation from land, comprising of 
 transpiration (evaporation of water from inside the leaves), evaporation from bare soils and interception 
 loss (evaporation of intercepted precipitation) [@miralles2020].
 
 Table 1: PET, surface and aerodynamic resistance methods included in `PyEt`. T, Temperature; U, Wind Speed; 
 D, Radiation; RH, Relative Humidity; $h_{crop}$, crop height; LAI, Leaf area index; $[CO_2]$ - atmospheric
-$CO_2$ concentration. Adapted from [@OUDIN2005290].
+$CO_2$ concentration. Adapted from @OUDIN2005290.
 
 | Method            | Data needed     | PyEt Method       | Reference                     |
 |-------------------|-----------------|-------------------|-------------------------------|
