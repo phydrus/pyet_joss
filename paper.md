@@ -54,8 +54,8 @@ transpiration (evaporation of water from inside the leaves), evaporation from ba
 
 Table 1: PET methods included in `PyEt`.
 
-| Method                   | Data needed | PyEt Method         | Reference                     |
-|------------------------  |-------------|---------------------|---------------------------    |
+| Method             | Data needed | PyEt Method       | Reference               |
+|--------------------|-------------|-------------------|-------------------------|
 | Penman                   | RH, T, U, D |`penman`             |[@penman1948natural]           |
 | Penman-Monteith          | RH, T, U, D |`pm`                 |[@monteith1965evaporation]     |
 | FAO-56                   | RH, T, U, D |`pm_fao56`           |[@allen1998crop]               |
