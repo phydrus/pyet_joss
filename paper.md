@@ -150,8 +150,8 @@ In the code above `R_s` is the incoming solar radiation [MJ m-2 d-1], `elevation
 `lat` the the site latitude [rad], `tmax` and `tmin` the maximum and minimum temperature [°C] and 
 `rh` the mean relative humidity [%].
 
-![Daily potential evaporation for De Bilt estimated according to [@monteith1965evaporation], 
-[@priestley1972assessment], [@makkink1957testing] and [@OUDIN2005290].](Figure1.png)
+![Daily potential evaporation for De Bilt estimated according to @monteith1965evaporation, 
+@priestley1972assessment, @makkink1957testing and @OUDIN2005290.](Figure1.png)
 
 
 # Concluding remarks
