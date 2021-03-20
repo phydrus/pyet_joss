@@ -68,7 +68,7 @@ which compute actual evaporation by reducing the PET due to water limitations. T
 accurate input of PET, which is often calibrated to match regional and plot characteristics [@OUDIN2005290].
  
 The standard procedure to determine the potential evaporation is using the Penamn-Monteith formulation 
-([allen1998crop, @walter2000asce)]), which requires standard meteorological measurements of air temperature, 
+[allen1998crop, @walter2000asce], which requires standard meteorological measurements of air temperature, 
 relative humidity, wind speed and radiation. Application of the Penamn-Monteith is therefore limited, as all of the
 data is often not available. Alternative methods that require less meteorological input are therefore in favor in 
 regions where all standard meteorological variables are not measured or climate scenarios, that only offer 
@@ -80,7 +80,7 @@ the Penman-Monteith method.
 
 At this stage, `PyEt` offers the estimation of daily PET using 20 different PET methods (see table below). 
 The package also provides numerous functions to estimate missing meteorological data (e.g. solar and net radiation).
-The methods are currently only implemented for 1D data (time series data). Future work will therefore centre on  
+The methods are currently only implemented for 1D data (time series data). Future work will therefore centre on 
 expanding functionality on 2D and 3D data as well (Numpy array, XArray, and NetCDF). The implemented methods are 
 tested against other open source data to ensure proper functioning of the methods [@allen1998crop].
 
@@ -130,8 +130,10 @@ import pandas as pd
 import pyet
 
 # Import meteorological data 
-meteo = pd.read_csv("data/meteo_maribor_2017.csv", parse_dates=True, 
-                    index_col="Date")
+data = pd.read_csv("data/etmgeg_260.txt", skiprows=46, delimiter=",", 
+                   skipinitialspace=True, index_col="YYYYMMDD", parse_dates=True)
+meteo = pd.DataFrame({"tmean":data.TG/10, "tmax":data.TX/10, "tmin":data.TN/10, 
+                      "rh":data.UG, "wind":data.FG/10, "rs":data.Q/100})				   
 tmax, tmin, rh, wind, rs = [meteo[col] for col in meteo.columns]
 
 # Compute Evaporation
@@ -139,8 +141,8 @@ et_penman = pyet.pm(wind, rs=rs, elevation=279, lat=0.813, tmax=tmax,
 					tmin=tmin, rh=rh)
 et_pt = pyet.priestley_taylor(wind, rs=rs, elevation=279, lat=0.813, 
 							  tmax=tmax, tmin=tmin, rh=rh)
-et_mak = pyet.makkink(rs, tmax=tmax, tmin=tmin, elevation=279)
-et_hamon = pyet.hamon(tmean.index, tmean, lat=0.813)
+et_makkink = pyet.makkink(rs, tmax=tmax, tmin=tmin, elevation=279)
+et_oudin = pyet.oudin(tmean, lat=0.813)
 ```
 In the code above `R_s` is the incoming solar radiation [MJ m-2 d-1], `elevation` the site elevation [m], 
 `lat` the the site latitude [rad], `tmax` and `tmin` the maximum and minimum temperature [°C] and 
