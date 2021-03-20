@@ -22,43 +22,75 @@ bibliography: paper.bib
 
 # Summary
 
-The evaporation (ET) of water from land surfaces to the atmosphere is a major component of the water 
-cycle and accurate estimates of the flux are essential to the water and agricultural sector. As 
-direct measurement of ET is difficult, the evaporation flux is often estimated from available 
-meteorological data using empirical formulas. There exist a variety of such formulas, where most 
-tend to estimate the potential evaporation (PET), which is the maximum amount of water that would 
-be evaporated if enough water were available. Consistently implementing these methods is difficult 
-due to the significant diversity in the level of input data, process representation, assumptions 
-and data requirements. The goal of `PyEt` is to provide a Python package that includes a wide range 
-of methods for the estimation of PET, is fully documented and easy to use. Currently, `PyEt` includes 
-eighteen different methods to estimate daily PET and various methods to estimate surface and aerodynamic 
-resistance (see Table below). The package allows users to compute and compare potential evaporation 
-estimates using different approaches with minimum effort. The structure of the package allows the 
-implementation of the methods in other hydrological models or sensitivity analysis.
+The evaporation (ET) of water from land surfaces to the atmosphere is a major component of the water cycle and 
+accurate estimates of the flux are essential to the water and agricultural sector. As direct measurement of ET 
+is difficult, the evaporation flux is commonly estimated from standard meteorological data using empirical 
+formulas. There is a wide variety of such formulas, ranging from complex physically based methods
+(e.g. Penamn-Monteith),to less weather-data demanding methods (e.g. Oudin, Hamon, ...). Most of the formulas 
+tend to estimate the potential evaporation (PET), which is the maximum amount of water that will be evaporated 
+if enough water were available. Water resources experts many times rely on these formulas to get a first 
+impression of the field water balance, preferably using a simple and fast procedure with multiple options of 
+data input. Consistently implementing these methods is difficult due to the significant diversity in the level 
+of input data, process representation, assumptions and data requirements. Therefore, the goal of `PyEt` is to 
+provide a Python package that includes a wide range of methods for the estimation of PET, is fully documented 
+and easy to use. The structure of the package allows easy coupling to hydrological models and usage in complex 
+sensitivity analysis. Currently, `PyEt` includes eighteen different methods to estimate daily PET and various 
+methods to estimate surface and aerodynamic resistance and other missing meteorological data(see Table below). 
 
 # Statement of Need
 
-In the Python community, there are already several Python packages that compute evaporation but only
-allow the user to choose between one or a maximum of three evaporation methods, e.g. `evaporation` 
-(https://github.com/openmeteo/evaporation),`PyETo` (https://github.com/woodcrafty/PyETo), `RefET` 
-(https://github.com/WSWUP/RefET). A package that includes a number of evaporation methods is already
-available in the R community by @Danlu2016r. `PyEt` therefore aims to provide similar contributions
-to the Python community. `PyEt` also includes simple evaporation methods that require fewer input 
-data than the commonly used Penman-Monteith method (see table below). Thus, `PyEt` can be of great 
-importance in regions with sparsely distributed networks of measurement stations or climate change 
-studies, where observations/predictions of wind velocity and humidity are often not available. The 
-importance of simple evaporation models and their efficiency in rainfall-runoff models is thoroughly 
-discussed in @OUDIN2005290. In this paper, the term `evaporation` refers to the total evaporation from land, comprising of 
-transpiration (evaporation of water from inside the leaves), evaporation from bare soils and interception 
-loss (evaporation of intercepted precipitation) [@miralles2020].
+In the Python community, there already exist many tools to compute potential evaporation. For example, `PyETo` 
+package includes the FAO-56 Penamn-Monteith, the Hargreaves and the Thornthwaite method 
+(https://github.com/woodcrafty/PyETo), the `evaporation` package the FAO-56 Penamn-Monteith method 
+(https://github.com/openmeteo/evaporation) and `RefET` the ASCE-EWRI Penamn-Monteith method 
+(https://github.com/WSWUP/RefET). All these packages, however, lack in consideration of alternative PET 
+formulations. A popular package that also includes alternative PET formulations is already developed in the R 
+community by @Danlu2016r.
 
-Table 1: PET, surface and aerodynamic resistance methods included in `PyEt`. T, Temperature; U, Wind Speed; 
+Thus, motivation behind `PyEt` is to provide a simple to use package, that incorporates multiple evaporation 
+formulations, to the Python community. Allowing multiple levels of input data, `PyEt` can be of great importance
+in regions with sparsely distributed networks of measurement stations or climate change studies, where 
+observations or predictions of standard meteorological data (e.g. wind, relative humidity) often not available.
+
+# Estimation of Evaporation 
+
+Evaporation(ET) is the process where a substance is converted from its liquid into its vapor phase. In this paper,
+the term evaporation is used to refer to the total evaporation from a land surface, comprising of transpiration 
+(evaporation of water from inside the leaves), evaporation from bare soils and interception (evaporation of 
+intercepted precipitation)[@miralles2020]. Representing one of the largest water fluxes from cathchments, the 
+magnitude of the flux is crucial for water related application and studies at both regional and plot scale. 
+
+Evaporation flux is influenced from meteorological conditions, but also the availability of water, which 
+determines if actual evaporation will occur at its potential rate (PET). Observations of actual evaporation are 
+limited to point measurements and require expensive instrumentation, which is often not available for most 
+practical applications. A common method of obtaining actual evaporation rates is thus by using hydrological models, 
+which compute actual evaporation by reducing the PET due to water limitations. These models therefore relly on 
+accurate input of PET, which is often calibrated to match regional and plot characteristics [@OUDIN2005290].
+ 
+The standard procedure to determine the potential evaporation is using the Penamn-Monteith formulation 
+([allen1998crop, @walter2000asce)]), which requires standard meteorological measurements of air temperature, 
+relative humidity, wind speed and radiation. Application of the Penamn-Monteith is therefore limited, as all of the
+data is often not available. Alternative methods that require less meteorological input are therefore in favor in 
+regions where all standard meteorological variables are not measured or climate scenarios, that only offer 
+projections of radiation and temperature. The study of @OUDIN2005290 gives a great introduction on the importance 
+of alternative methods to estimate PET and also reports that in some regions the alternative PET methods outperform 
+the Penman-Monteith method.
+
+# Functionality
+
+At this stage, `PyEt` offers the estimation of daily PET using 20 different PET methods (see table below). 
+The package also provides numerous functions to estimate missing meteorological data (e.g. solar and net radiation).
+The methods are currently only implemented for 1D data (time series data). Future work will therefore centre on  
+expanding functionality on 2D and 3D data as well (Numpy array, XArray, and NetCDF). The implemented methods are 
+tested against other open source data to ensure proper functioning of the methods [@allen1998crop].
+
+ Table 1: PET, surface and aerodynamic resistance methods included in `PyEt`. T, Temperature; U, Wind Speed; 
 D, Radiation; RH, Relative Humidity; $h_{crop}$, crop height; LAI, Leaf area index; $[CO_2]$ - atmospheric
 $CO_2$ concentration. Adapted from @OUDIN2005290.
 
-| Method            | Data needed     | PyEt Method       | Reference                     |
-|-------------------|-----------------|-------------------|-------------------------------|
-| Penman            | RH, T, U, D     |`penman`           |@penman1948natural             |
+| Method            | Data needed     | PyEt Method       | Reference                   |
+|-------------------|-----------------|-------------------|-----------------------------|
+| Penman            | RH, T, U, D     |`penman`           |@penman1948natural           |
 | Penman-Monteith   | RH, T, U, D     |`pm`               |@monteith1965evaporation     |
 |                   |                 |                   |@schymanski_2017             |
 | FAO-56            | RH, T, U, D     |`pm_fao56`         |@allen1998crop               |
@@ -88,11 +120,12 @@ $CO_2$ concentration. Adapted from @OUDIN2005290.
 # Example application
 
 This example shows how `PyEt` can be used to compute potential evaporation using different evaporation 
-methods. The potential evaporation is estimated for the city of Maribor (Slovenia), using online available 
-data from the Slovenian Environmental Agency (ARSO). The potential evaporation is computed using 
-four different methods (Penman, Priestley-Taylor, Makking, Hammon) and plotted for comparison.
+methods. The potential evaporation is estimated for the city of De Bilt, using online available data 
+provided by the The Royal Netherlands Meteorological Institute (KNMI). The potential evaporation is computed using 
+four different methods (Penman, Priestley-Taylor, Makking, Oudin) and plotted for comparison.
 
 ``` python
+# Import needed packages
 import pandas as pd
 import pyet
 
@@ -101,12 +134,13 @@ meteo = pd.read_csv("data/meteo_maribor_2017.csv", parse_dates=True,
                     index_col="Date")
 tmax, tmin, rh, wind, rs = [meteo[col] for col in meteo.columns]
 
+# Compute Evaporation
 et_penman = pyet.pm(wind, rs=rs, elevation=279, lat=0.813, tmax=tmax, 
 					tmin=tmin, rh=rh)
 et_pt = pyet.priestley_taylor(wind, rs=rs, elevation=279, lat=0.813, 
 							  tmax=tmax, tmin=tmin, rh=rh)
 et_mak = pyet.makkink(rs, tmax=tmax, tmin=tmin, elevation=279)
-et_hamon = pyet.hamon(tmean.index, tmean, 0.813)
+et_hamon = pyet.hamon(tmean.index, tmean, lat=0.813)
 ```
 In the code above `R_s` is the incoming solar radiation [MJ m-2 d-1], `elevation` the site elevation [m], 
 `lat` the the site latitude [rad], `tmax` and `tmin` the maximum and minimum temperature [°C] and 
@@ -115,10 +149,11 @@ In the code above `R_s` is the incoming solar radiation [MJ m-2 d-1], `elevation
 ![Daily potential evaporation for Maribor (Slovenia) estimated according to [@monteith1965evaporation], 
 [@priestley1972assessment], [@makkink1957testing] and [@hamon1963estimating].](Figure1.png)
 
+
 # Concluding remarks
 
 This paper presents `PyEt`, a Python package to estimate daily potential evaporation from available 
-meteorological data. Using `PyEt`, users can estimate PET using 18 different methods with only a few lines
+meteorological data. Using `PyEt`, users can estimate PET using 20 different methods with only a few lines
 of Python-code. At this stage (PyEt v1.0), the methods are implemented for 1D data (e.g. time series data).
 Further developments will focus on enabling 2D and 3D data input (Numpy Arrays, Array, and NetCDF files).
 The authors believe that `PyEt` is a valuable contribution to the hydrology, meteorology and agricultural 
