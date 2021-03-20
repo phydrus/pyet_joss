@@ -131,9 +131,11 @@ import pyet
 
 # Import meteorological data 
 data = pd.read_csv("data/etmgeg_260.txt", skiprows=46, delimiter=",", 
-                   skipinitialspace=True, index_col="YYYYMMDD", parse_dates=True)
-meteo = pd.DataFrame({"tmean":data.TG/10, "tmax":data.TX/10, "tmin":data.TN/10, 
-                      "rh":data.UG, "wind":data.FG/10, "rs":data.Q/100})				   
+                   skipinitialspace=True, index_col="YYYYMMDD", 
+				   parse_dates=True)
+meteo = pd.DataFrame({"tmean":data.TG/10, "tmax":data.TX/10, 
+                      "tmin":data.TN/10, "wind":data.FG/10, 
+					  "rh":data.UG, "rs":data.Q/100})				   
 tmax, tmin, rh, wind, rs = [meteo[col] for col in meteo.columns]
 
 # Compute Evaporation
@@ -148,8 +150,8 @@ In the code above `R_s` is the incoming solar radiation [MJ m-2 d-1], `elevation
 `lat` the the site latitude [rad], `tmax` and `tmin` the maximum and minimum temperature [°C] and 
 `rh` the mean relative humidity [%].
 
-![Daily potential evaporation for Maribor (Slovenia) estimated according to [@monteith1965evaporation], 
-[@priestley1972assessment], [@makkink1957testing] and [@hamon1963estimating].](Figure1.png)
+![Daily potential evaporation for De Bilt estimated according to [@monteith1965evaporation], 
+[@priestley1972assessment], [@makkink1957testing] and [@OUDIN2005290].](Figure1.png)
 
 
 # Concluding remarks
