@@ -85,10 +85,8 @@ import pyet
 data = pd.read_csv("data/etmgeg_260.txt", skiprows=46, delimiter=",", 
                    skipinitialspace=True, index_col="YYYYMMDD", 
 				   parse_dates=True)
-meteo = pd.DataFrame({"tmean":data.TG/10, "tmax":data.TX/10, 
-                      "tmin":data.TN/10, "wind":data.FG/10, 
-					  "rh":data.UG, "rs":data.Q/100})				   
-tmean, tmax, tmin, rh, wind, rs = [meteo[col] for col in meteo.columns]
+tmean, tmax, tmin, rh, wind, rs = (data.TG/10, data.TX/10, data.TN/10,
+                                   data.UG, data.FG/10, data.Q/100)
 
 # Compute Evaporation
 et_penman = pyet.pm(tmean, wind, rs=rs, elevation=279, lat=0.813, 
