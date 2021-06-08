@@ -25,9 +25,7 @@ The evaporation of water from land surfaces to the atmosphere is a major compone
 
 # Statement of Need
 
-There exists a number of standardized calculation methods of potential and reference evaporation, from which the benchmark reports of the American Society of Civil Engineers [@walter2000asce] and the Food and Agriculture Organization [@allen1998crop] are amongs the most widely adopted. There are several scattered open-source Python packages that follow one of the benchark equations (@pyet0_2019, @eto_2019, @refet_2020 and @evap_2020), however none of these packages provide an exhaustive list of alternative methods or lack in testing and documentation. Outside of Python, the R package `Evapotranspiration` by @Danlu2016r is the most closely related project to `pyet` and provides similar functionalities to the R community. Hence, the aim of `pyet` is to provide a simple to use Python package, that includes a wide variety of evaporation formulas, to the water resources experts in the Python community.
-
-Allowing multiple levels of input data, `pyet` can be of importance in regions with sparsely distributed measurement stations or climate change studies, where observations or predictions of standard meteorological data (e.g., wind, relative humidity) are often not available.
+There exists a number of standardized calculation methods of potential and reference evaporation, from which the benchmark reports of the American Society of Civil Engineers [@walter2000asce] and the Food and Agriculture Organization [@allen1998crop] are amongs the most widely adopted. There are several scattered open-source Python packages that follow one of the benchark equations (@pyet0_2019, @eto_2019, @refet_2020 and @evap_2020), however none of these packages provide an exhaustive list of alternative methods or lack in testing and documentation. Outside of Python, the R package `Evapotranspiration` by @Danlu2016r is the most closely related project to `pyet` and provides similar functionalities to the R community. Hence, the aim of `pyet` is to provide a simple to use Python package, that includes a wide variety of evaporation formulas, to the water resources experts in the Python community. Allowing multiple levels of input data, `pyet` can be of importance in regions with sparsely distributed measurement stations or climate change studies, where observations or predictions of standard meteorological data (e.g., wind, relative humidity) are often not available.
 
 # Estimation of Evaporation 
 
@@ -93,10 +91,10 @@ meteo = pd.DataFrame({"tmean":data.TG/10, "tmax":data.TX/10,
 tmean, tmax, tmin, rh, wind, rs = [meteo[col] for col in meteo.columns]
 
 # Compute Evaporation
-et_penman = pyet.pm(tmean, wind, rs=rs, elevation=279, lat=0.813, tmax=tmax, 
-					tmin=tmin, rh=rh)
-et_pt = pyet.priestley_taylor(tmean, wind, rs=rs, elevation=279, lat=0.813, 
-							  tmax=tmax, tmin=tmin, rh=rh)
+et_penman = pyet.pm(tmean, wind, rs=rs, elevation=279, lat=0.813, 
+					tmax=tmax, tmin=tmin, rh=rh)
+et_pt = pyet.priestley_taylor(tmean, wind, rs=rs, elevation=279, 
+							  lat=0.813, tmax=tmax, tmin=tmin, rh=rh)
 et_makkink = pyet.makkink(tmean, rs, elevation=279)
 ```
 In the code above `rs` is the incoming solar radiation [MJ m-2 d-1], `elevation` the altitude above sea level [m], `lat` the site latitude [rad], `tmean` the mean temperature, `tmax` and `tmin` the maximum and minimum temperature [°C] and `rh` the mean relative humidity [%]. The results show that PE differs based on the estimation method that is used, thus demonstrating the model uncertainty associated with the estimation of PE.
